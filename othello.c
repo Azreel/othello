@@ -4,10 +4,12 @@
 
 typedef enum {WHT=-1, EMP=0, BLK=1, OUT=2} Piece;
 
-void cell_output(void);                                 //ƒRƒ}‚Ìo—Í//
-void init(void);                                        //‰Šú”Õ–Ê//
-void input(Piece trn);                                  //“ü—Í”»’è//
-
+void cell_output(void);                                 //ƒRƒ}‚Ìo—Í
+void init(void);                                        //‰Šú”Õ–Ê
+void input(Piece trn);                                  //“ü—Í”»’è
+int end(void);                                          //I—¹”»’è
+int judge(void);                                        //ŸÒ”»’è
+void Umetarou(int player);                              //‘S©“®–„‚ß‹@
 
 Piece cell[SIZE][SIZE];
 
@@ -19,17 +21,20 @@ int main(void) {
     
     cell_output();
     
-    while(1){
+    while(!end()){
         input(trn);
+        //Umetarou(trn);
         trn *= -1;
         
         cell_output();
     }
+    judge();
     
     return 0;
 
 }
 
+                                                               //ƒRƒ}‚Ìo—Í
 void cell_output(void) {
     
     int i, p;
@@ -50,6 +55,7 @@ void cell_output(void) {
     }
 }
 
+                                                                //‰Šú”Õ–Ê
 void init(void)
 {
     int i, j;
@@ -64,6 +70,7 @@ void init(void)
     cell[3][4] = cell[4][3] = BLK;
 }
 
+                                                               //“ü—Í”»’è
 void input(Piece trn)
 {
     int x, y;
@@ -82,4 +89,62 @@ void input(Piece trn)
     
 }
 
+                                                               //I—¹”»’è
+int end(void)
+{
+    int i, j;
+    
+    for(i = 0; i < SIZE; i++){
+        for(j = 0; j < SIZE; j++){
+            if(cell[i][j] == EMP){
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
 
+                                                     //ŸÒ”»’è
+int judge(void)
+{
+    int i, j;
+    int B, W;
+    
+    B = 0;
+    W = 0;
+    
+    for(i = 0; i < SIZE; i++){
+        for(j = 0; j < SIZE; j++){
+            if(cell[i][j] == BLK){
+                B++;
+            }
+            else if(cell[i][j] == WHT){
+                W++;
+            }
+        }
+    }
+    printf("•:%d@”’:%d\n", B, W);
+    if(B > W){
+        printf("•‚ÌŸ‚¿‚Å‚·");
+    } else if(B < W){
+        printf("”’‚ÌŸ‚¿‚Å‚·");
+    } else{
+        printf("ˆø‚«•ª‚¯");
+    }
+}
+
+//|||||||||||||||||||||||||||||||||||||||
+//”Õ–Ê–„‚ß‘¾˜Y
+//|||||||||||||||||||||||||||||||||||||||
+void Umetarou(int player){
+    int i, j;
+    
+    for( i = 0; i < SIZE; i++ ){
+        for( j = 0; j < SIZE; j++ ){
+            if( cell[i][j] == EMP ){
+                cell[i][j] = player;
+                return;
+            }
+        }
+    }
+}
